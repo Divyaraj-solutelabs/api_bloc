@@ -5,16 +5,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'feature/api_fetching/presentation/homepage.dart';
+import 'internet_connectivity_checker/bloc/connected_bloc.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(MyApp(
     apiprovider: Apiprovider(),
   ));
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key, required this.apiprovider}) : super(key: key);
-
+   MyApp({Key? key, required this.apiprovider}) : super(key: key);
+  ConnectedBloc _connectedBloc = ConnectedBloc();
   final Apiprovider apiprovider;
 
   @override
@@ -27,6 +29,9 @@ class MyApp extends StatelessWidget {
                     apiprovider:apiprovider
                   )
                 )..fetchCommentApi(),
+            ),
+            BlocProvider<ConnectedBloc>(
+              create:(context)=>ConnectedBloc()
             )
           ],
         child:MaterialApp(
@@ -35,7 +40,35 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home:  HomePage(),
+      home: BlocProvider<ConnectedBloc>(
+    create: (context) => _connectedBloc,
+            child: BlocConsumer<ConnectedBloc, ConnectedState>(
+              listener: (context, state) {
+                if (state is ConnectedSucessState) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('Internet Connected'),backgroundColor: Colors.green,));
+                } else if (state is ConnectedFailureState) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('Internet Lost'),backgroundColor: Colors.red,));
+                }
+              },
+              builder: (context,state){
+                if(state  is ConnectedSucessState){
+                  return HomePage();
+                }
+                else if(state is ConnectedFailureState){
+                  return Scaffold (
+                      body:Center(child:Text("Not Connected to Internet",style: TextStyle(
+                    fontSize: 15
+                  ),)));
+                }
+                else{
+                  return Container();
+                }
+                
+              },
+            ),
+      ),
     ));
   }
 }
