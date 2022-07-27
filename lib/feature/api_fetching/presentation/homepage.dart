@@ -46,7 +46,9 @@ class _HomePageState extends State<HomePage>{
                             fontSize: 7
                         ),
                         ),
-                        leading: Text(commentList[index].id.toString()),
+                        leading: CircleAvatar(
+                            child:Text(commentList[index].id.toString())
+                  ),
 
                   ));
                 }
