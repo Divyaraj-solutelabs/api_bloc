@@ -1,22 +1,24 @@
 import 'package:api_bloc/feature/api_fetching/bloc/comment_bloc.dart';
 import 'package:api_bloc/feature/api_fetching/network_service/api_repository.dart';
 import 'package:api_bloc/feature/api_fetching/network_service/apiprovider.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'feature/api_fetching/presentation/homepage.dart';
-import 'internet_connectivity_checker/bloc/connected_bloc.dart';
+import 'internet_connectivity_checker/bloc/internet_cubit.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   runApp(MyApp(
     apiprovider: Apiprovider(),
+    connectivityy: Connectivity(),
   ));
 }
 
 class MyApp extends StatelessWidget {
-   MyApp({Key? key, required this.apiprovider}) : super(key: key);
-  ConnectedBloc _connectedBloc = ConnectedBloc();
+   MyApp({Key? key, required this.apiprovider,required this.connectivityy}) : super(key: key);
+   final Connectivity connectivityy;
   final Apiprovider apiprovider;
 
   @override
@@ -30,8 +32,8 @@ class MyApp extends StatelessWidget {
                   )
                 )..fetchCommentApi(),
             ),
-            BlocProvider<ConnectedBloc>(
-              create:(context)=>ConnectedBloc()
+            BlocProvider<InternetCubit>(
+              create:(context)=>InternetCubit(connectivity: connectivityy)
             )
           ],
         child:MaterialApp(
@@ -40,35 +42,29 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: BlocProvider<ConnectedBloc>(
-    create: (context) => _connectedBloc,
-            child: BlocConsumer<ConnectedBloc, ConnectedState>(
-              listener: (context, state) {
-                if (state is ConnectedSucessState) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Internet Connected'),backgroundColor: Colors.green,));
-                } else if (state is ConnectedFailureState) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Internet Lost'),backgroundColor: Colors.red,));
-                }
-              },
-              builder: (context,state){
-                if(state  is ConnectedSucessState){
-                  return HomePage();
-                }
-                else if(state is ConnectedFailureState){
-                  return Scaffold (
-                      body:Center(child:Text("Not Connected to Internet",style: TextStyle(
-                    fontSize: 15
-                  ),)));
-                }
-                else{
-                  return Container();
-                }
-                
-              },
+      home:BlocBuilder<InternetCubit, InternetState>(
+        builder: (context, state){
+          if(state is InternetConnected){
+            return HomePage();
+          }
+          else if(state is InternetDisconnected){
+            return Scaffold(
+              body: Center(
+                child: Text(
+                  "Not Connected To Internet"
+                ),
+              ),
+            );
+          }
+          return Scaffold(
+            body: Center(
+              child: Text(
+                  "Not Connected To Internet"
+              ),
             ),
-      ),
+          );
+        },
+      )
     ));
   }
 }
