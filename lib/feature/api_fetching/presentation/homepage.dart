@@ -25,7 +25,7 @@ class _HomePageState extends State<HomePage>{
         backgroundColor: Colors.white,
         title: Text("Comments",
         style: TextStyle(
-          fontFamily:'Courgette',
+          fontFamily:'NunitoSans',
           color: Colors.black
         ),
         ),
@@ -72,20 +72,20 @@ class _HomePageState extends State<HomePage>{
                       child:ListTile(
                     title: Text(commentList[index].name!,
                       style: TextStyle(
-                        fontFamily: 'Courgette',
+                        fontFamily: 'NunitoSans',
 
                       ),
                     ),
                         subtitle: Text(commentList[index].body!,
                         style: TextStyle(
-                          fontFamily: 'Courgette',
+                          fontFamily: 'NunitoSans',
                         ),
                         ),
                         leading: CircleAvatar(
 
                             child:Text(commentList[index].id.toString(),style: TextStyle(
                               color: Colors.white,
-                              fontFamily: 'Courgette'
+                              fontFamily: 'NunitoSans'
                             ),),
                           backgroundColor: Colors.primaries[Random().nextInt(Colors.primaries.length)],
                   ),

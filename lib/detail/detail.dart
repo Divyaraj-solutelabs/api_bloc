@@ -19,13 +19,13 @@ class Detail extends StatelessWidget{
             leading: Text(
               "ID :",
               style: TextStyle(
-                fontFamily: 'Courgette'
+                fontFamily: 'NunitoSans'
               ),
             ),
             title: Text(
               id.toString(),
               style: TextStyle(
-                  fontFamily: 'Courgette'
+                  fontFamily: 'NunitoSans'
               ),
             ),
           ),
@@ -33,26 +33,26 @@ class Detail extends StatelessWidget{
             leading: Text(
               "PostID :",
               style: TextStyle(
-                  fontFamily: 'Courgette'
+                  fontFamily: 'NunitoSans'
               ),
             ),
             title: Text(
               postId.toString(),
               style: TextStyle(
-                  fontFamily: 'Courgette'
+                  fontFamily: 'NunitoSans'
               ),
             ),
           ),
          ListTile(
             leading: Text("Name :",
               style: TextStyle(
-                  fontFamily: 'Courgette'
+                  fontFamily: 'NunitoSans'
               ),
             ),
             title: Text(
               name,
               style: TextStyle(
-                  fontFamily: 'Courgette'
+                  fontFamily: 'NunitoSans'
               ),
             ),
           ),
@@ -60,24 +60,24 @@ class Detail extends StatelessWidget{
             leading: Text(
               "Email :",
     style: TextStyle(
-    fontFamily: 'Courgette'
+    fontFamily: 'NunitoSans'
     ),
             ),
             title: Text(email,
               style: TextStyle(
-                fontFamily: 'Courgette'
+                fontFamily: 'NunitoSans'
             ),),
           ),
            ListTile(
             leading: Text("Body :",
             style: TextStyle(
-            fontFamily: 'Courgette'
+            fontFamily: 'NunitoSans'
             ),
             ),
             title: Text(
             body,
     style: TextStyle(
-    fontFamily: 'Courgette'
+    fontFamily: 'NunitoSans'
     ),
     ),
           )
