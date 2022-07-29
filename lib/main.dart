@@ -1,6 +1,7 @@
 import 'package:api_bloc/feature/api_fetching/bloc/comment_bloc.dart';
 import 'package:api_bloc/feature/api_fetching/network_service/api_repository.dart';
 import 'package:api_bloc/feature/api_fetching/network_service/apiprovider.dart';
+import 'package:api_bloc/internet_connectivity_checker/presentation/disconnected.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -48,21 +49,9 @@ class MyApp extends StatelessWidget {
             return HomePage();
           }
           else if(state is InternetDisconnected){
-            return Scaffold(
-              body: Center(
-                child: Text(
-                  "Not Connected To Internet"
-                ),
-              ),
-            );
+            return disconnected();
           }
-          return Scaffold(
-            body: Center(
-              child: Text(
-                  "Not Connected To Internet"
-              ),
-            ),
-          );
+          return disconnected();
         },
       )
     ));
